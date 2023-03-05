@@ -1,0 +1,364 @@
+Data Scientist Role Play: Profiling and Analyzing the Yelp Dataset Coursera Worksheet
+
+This is a 2-part assignment. In the first part, you are asked a series of questions that will help you profile and understand the data just like a data scientist would. For this first part of the assignment, you will be assessed both on the correctness of your findings, as well as the code you used to arrive at your answer. You will be graded on how easy your code is to read, so remember to use proper formatting and comments where necessary.
+
+In the second part of the assignment, you are asked to come up with your own inferences and analysis of the data for a particular research question you want to answer. You will be required to prepare the dataset for the analysis you choose to do. As with the first part, you will be graded, in part, on how easy your code is to read, so use proper formatting and comments to illustrate and communicate your intent as required.
+
+For both parts of this assignment, use this "worksheet." It provides all the questions you are being asked, and your job will be to transfer your answers and SQL coding where indicated into this worksheet so that your peers can review your work. You should be able to use any Text Editor (Windows Notepad, Apple TextEdit, Notepad ++, Sublime Text, etc.) to copy and paste your answers. If you are going to use Word or some other page layout application, just be careful to make sure your answers and code are lined appropriately.
+In this case, you may want to save as a PDF to ensure your formatting remains intact for you reviewer.
+
+
+
+Part 1: Yelp Dataset Profiling and Understanding
+
+1. Profile the data by finding the total number of records for each of the tables below:
+	
+i. Attribute table = 10000 
+ii. Business table = 10000 
+iii. Category table = 10000 
+iv. Checkin table = 10000
+v. elite_years table = 10000
+vi. friend table = 10000
+vii. hours table = 10000
+viii. photo table = 10000
+ix. review table = 10000
+x. tip table = 10000
+xi. user table = 10000
+	
+
+
+2. Find the total distinct records by either the foreign key or primary key for each table. If two foreign keys are listed in the table, please specify which foreign key.
+
+i. Business = id : 10000 
+ii. Hours = business_id : 1562  
+iii. Category = business_id : 2643 
+iv. Attribute = business_id : 1115 
+v. Review = id : 10000; business_id : 8090; user_id : 9581
+vi. Checkin = business_id : 493 
+vii. Photo = business_id : 6493; id:10000 
+viii. Tip = business_id : 3979; user_id : 537;
+ix. User = id : 10000 
+x. Friend = user_id : 11
+xi. Elite_years = user_id: 2780 
+
+Note: Primary Keys are denoted in the ER-Diagram with a yellow key icon.	
+
+
+
+3. Are there any columns with null values in the Users table? Indicate "yes," or "no."
+
+	Answer: no
+	
+	
+	SQL code used to arrive at answer: SELECT * FROM user WHERE
+										id is NULL OR
+										name is NULL OR
+										review_count is NULL OR
+										yelping_since is NULL OR
+										useful is NULL OR
+										funny is NULL OR
+										cool is NULL OR
+										fans is NULL OR
+										average_stars is NULL OR
+										compliment_hot is NULL OR
+										compliment_more is NULL OR
+										compliment_profile is NULL OR
+										compliment_cute is NULL OR
+										compliment_list is NULL OR
+										compliment_note is NULL OR
+										compliment_plain is NULL OR
+										compliment_cool is NULL OR
+										compliment_funny is NULL OR
+										compliment_writer is NULL;
+	
+	
+
+	
+4. For each table and column listed below, display the smallest (minimum), largest (maximum), and average (mean) value for the following fields:
+
+	i. Table: Review, Column: Stars
+	
+		min:1		max:5		avg:3.7082 
+		
+	
+	ii. Table: Business, Column: Stars
+	
+		min:1.0		max:5.0 		avg:3.6549 
+		
+	
+	iii. Table: Tip, Column: Likes
+	
+		min:0		max:2		avg:0.0144 
+		
+	
+	iv. Table: Checkin, Column: Count
+	
+		min:1		max:53		avg:1.9414 
+		
+	
+	v. Table: User, Column: Review_count
+	
+		min:0		max:2000		avg:24.2995 
+		
+
+
+5. List the cities with the most reviews in descending order:
+
+	SQL code used to arrive at answer: SELECT city, SUM(review_count) as count_review FROM business GROUP BY city ORDER BY count_review DESC;
+	
+	
+	Copy and Paste the Result Below:
+	+-----------------+--------------+
+	| city            | count_review |
+	+-----------------+--------------+
+	| Las Vegas       |        82854 |
+	| Phoenix         |        34503 |
+	| Toronto         |        24113 |
+	| Scottsdale      |        20614 |	
+	| Charlotte       |        12523 |
+	| Henderson       |        10871 |
+	| Tempe           |        10504 |
+	| Pittsburgh      |         9798 |
+	| Montréal        |         9448 |
+	| Chandler        |         8112 |
+	| Mesa            |         6875 |
+	| Gilbert         |         6380 |
+	| Cleveland       |         5593 |
+	| Madison         |         5265 |
+	| Glendale        |         4406 |
+	| Mississauga     |         3814 |
+	| Edinburgh       |         2792 |
+	| Peoria          |         2624 |
+	| North Las Vegas |         2438 |
+	| Markham         |         2352 |
+	| Champaign       |         2029 |
+	| Stuttgart       |         1849 |
+	| Surprise        |         1520 |
+	| Lakewood        |         1465 |
+	| Goodyear        |         1155 |
+	+-----------------+--------------+
+	(Output limit exceeded, 25 of 362 total rows shown)
+	
+
+	
+6. Find the distribution of star ratings to the business in the following cities:
+
+i. Avon
+
+SQL code used to arrive at answer: SELECT stars, SUM(review_count) FROM business WHERE city = "Avon" GROUP BY stars;
+
+
+Copy and Paste the Resulting Table Below (2 columns â€“ star rating and count):
++-------+-------------------+
+| stars | SUM(review_count) |
++-------+-------------------+
+|   1.5 |                10 |
+|   2.5 |                 6 |
+|   3.5 |                88 |
+|   4.0 |                21 |
+|   4.5 |                31 |
+|   5.0 |                 3 |
++-------+-------------------+
+
+ii. Beachwood
+
+SQL code used to arrive at answer: SELECT stars, SUM(review_count) FROM business WHERE city = "Beachwood" GROUP BY stars;
+
+
+Copy and Paste the Resulting Table Below (2 columns â€“ star rating and count):
++-------+-------------------+
+| stars | SUM(review_count) |
++-------+-------------------+
+|   2.0 |                 8 |
+|   2.5 |                 3 |
+|   3.0 |                11 |
+|   3.5 |                 6 |
+|   4.0 |                69 |
+|   4.5 |                17 |
+|   5.0 |                23 |
++-------+-------------------+
+
+
+7. Find the top 3 users based on their total number of reviews:
+		
+	SQL code used to arrive at answer: SELECT * FROM user ORDER BY review_count DESC LIMIT 3;
+	
+		
+	Copy and Paste the Result Below:
+	+------------------------+--------+--------------+---------------------+--------+-------+-------+------+---------------+----------------+-----------------+--------------------+-----------------+-----------------+-----------------+------------------+-----------------+------------------+-------------------+-------------------+
+	| id                     | name   | review_count | yelping_since       | useful | funny |  cool | fans | average_stars | compliment_hot | compliment_more | compliment_profile | compliment_cute | compliment_list | compliment_note | compliment_plain | compliment_cool | compliment_funny | compliment_writer | compliment_photos |
+	+------------------------+--------+--------------+---------------------+--------+-------+-------+------+---------------+----------------+-----------------+--------------------+-----------------+-----------------+-----------------+------------------+-----------------+------------------+-------------------+-------------------+
+	| -G7Zkl1wIWBBmD0KRy_sCw | Gerald |         2000 | 2012-12-16 00:00:00 |  17524 |  2324 | 15008 |  253 |           3.6 |            206 |              58 |                 19 |               1 |               0 |             352 |              667 |             704 |              704 |               430 |               220 |
+	| -3s52C4zL_DHRK0ULG6qtg | Sara   |         1629 | 2010-05-16 00:00:00 |     25 |    10 |     2 |   50 |          3.42 |             11 |               6 |                  1 |               2 |               0 |              19 |               44 |              16 |               16 |                11 |                 2 |
+	| -8lbUNlXVSoXqaRRiHiSNg | Yuri   |         1339 | 2008-01-03 00:00:00 |   1166 |   220 |   561 |   76 |          4.11 |            109 |               8 |                  6 |               3 |              14 |              34 |               79 |              91 |               91 |                41 |                47 |
+	+------------------------+--------+--------------+---------------------+--------+-------+-------+------+---------------+----------------+-----------------+--------------------+-----------------+-----------------+-----------------+------------------+-----------------+------------------+-------------------+-------------------+
+
+
+		
+
+
+8. Does posing more reviews correlate with more fans?
+
+	Please explain your findings and interpretation of the results: Not necessarily, as the quantity of fans is also affected by when they began yelping. Sara is an exception since she has a high number of reviews and has been on Yelp for a long time, yet she only has 50 fans.
+	
+
+	
+9. Are there more reviews with the word "love" or with the word "hate" in them?
+
+	Answer: yes
+
+	
+	SQL code used to arrive at answer: SELECT count(*) FROM review WHERE text LIKE "%love%" OR text LIKE "%hate%";
+	
+
+	
+	
+10. Find the top 10 users with the most fans:
+
+	SQL code used to arrive at answer: SELECT * FROM user ORDER BY fans DESC LIMIT 10;
+	
+	
+	Copy and Paste the Result Below:
+	+------------------------+-----------+--------------+---------------------+--------+--------+--------+------+---------------+----------------+-----------------+--------------------+-----------------+-----------------+-----------------+------------------+-----------------+------------------+-------------------+-------------------+
+	| id                     | name      | review_count | yelping_since       | useful |  funny |   cool | fans | average_stars | compliment_hot | compliment_more | compliment_profile | compliment_cute | compliment_list | compliment_note | compliment_plain | compliment_cool | compliment_funny | compliment_writer | compliment_photos |
+	+------------------------+-----------+--------------+---------------------+--------+--------+--------+------+---------------+----------------+-----------------+--------------------+-----------------+-----------------+-----------------+------------------+-----------------+------------------+-------------------+-------------------+
+	| -9I98YbNQnLdAmcYfb324Q | Amy       |          609 | 2007-07-19 00:00:00 |   3226 |   2554 |   2751 |  503 |          3.21 |           2370 |             154 |                145 |             281 |              26 |             751 |             1154 |            2950 |             2950 |               709 |               245 |
+	| -8EnCioUmDygAbsYZmTeRQ | Mimi      |          968 | 2011-03-30 00:00:00 |    257 |    138 |    159 |  497 |          4.05 |            983 |              68 |                 54 |             137 |              31 |             340 |              482 |             725 |              725 |               326 |               471 |
+	| --2vR0DIsmQ6WfcSzKWigw | Harald    |         1153 | 2012-11-27 00:00:00 | 122921 | 122419 | 122890 |  311 |           4.4 |           7246 |            2204 |               2367 |            1176 |             990 |            3239 |            12102 |           12008 |            12008 |              5772 |             22219 |
+	| -G7Zkl1wIWBBmD0KRy_sCw | Gerald    |         2000 | 2012-12-16 00:00:00 |  17524 |   2324 |  15008 |  253 |           3.6 |            206 |              58 |                 19 |               1 |               0 |             352 |              667 |             704 |              704 |               430 |               220 |
+	| -0IiMAZI2SsQ7VmyzJjokQ | Christine |          930 | 2009-07-08 00:00:00 |   4834 |   6646 |   4321 |  173 |          3.69 |            168 |              29 |                 39 |               8 |              28 |             101 |              194 |             242 |              242 |               202 |               104 |
+	| -g3XIcCb2b-BD0QBCcq2Sw | Lisa      |          813 | 2009-10-05 00:00:00 |     48 |     13 |      6 |  159 |          4.09 |             85 |              15 |                  6 |               4 |              11 |              52 |               76 |             104 |              104 |               127 |                88 |
+	| -9bbDysuiWeo2VShFJJtcw | Cat       |          377 | 2009-02-05 00:00:00 |   1062 |    672 |   1076 |  133 |          3.99 |            660 |              23 |                 53 |              79 |              14 |             145 |              434 |             612 |              612 |               207 |               147 |
+	| -FZBTkAZEXoP7CYvRV2ZwQ | William   |         1215 | 2015-02-19 00:00:00 |   9363 |   9361 |   9370 |  126 |          4.41 |            100 |              37 |                 12 |               0 |               5 |              83 |              242 |             375 |              375 |                95 |               179 |
+	| -9da1xk7zgnnfO1uTVYGkA | Fran      |          862 | 2012-04-05 00:00:00 |   9851 |   7606 |   9344 |  124 |           4.1 |           2334 |              71 |                 94 |              43 |               1 |             647 |             1695 |            4285 |             4285 |               748 |              2428 |
+	| -lh59ko3dxChBSZ9U7LfUw | Lissa     |          834 | 2007-08-14 00:00:00 |    455 |    150 |    342 |  120 |          3.68 |            417 |              35 |                 57 |              17 |              21 |             113 |              308 |             482 |              482 |               346 |                24 |
+	+------------------------+-----------+--------------+---------------------+--------+--------+--------+------+---------------+----------------+-----------------+--------------------+-----------------+-----------------+-----------------+------------------+-----------------+------------------+-------------------+-------------------+
+
+	
+		
+
+Part 2: Inferences and Analysis
+
+1. Pick one city and category of your choice and group the businesses in that city or category by their overall star rating. Compare the businesses with 2-3 stars to the businesses with 4-5 stars and answer the following questions. Include your code.
+	
+i. Do the two groups you chose to analyze have a different distribution of hours?
+   Ans: Yes. For food category in Las Vegas, the 4 star(Between 4 and 5 star) business stays for like 9 hours almost where 2.5 star(between 2 and 3 star) business stays more than 4 star business(more than 10 hours almost)
+
+
+ii. Do the two groups you chose to analyze have a different number of reviews?
+    Ans: Yes. For food category in Las Vegas, the business which has 4 star has something like 30 reviews and the business which has below 3 star has something like 6 reviews       
+         
+iii. Are you able to infer anything from the location data provided between these two groups? Explain.
+     Ans: For food category in Las Vegas, The 4-5 stars business is located in the South Eastern Avenue neighborhood, and the 2-3 stars business is located in the Eastside Tropicana neighborhood. Since the one in the
+	South Eastern neighborhood has more reviews and higher rating of stars, it could be possible that the South Eastern neighborhood cares more about food, which causes
+	better restaurants to want to be located there and have more customers writing reviews about the businesses. Or it can also be happen that there is no better resturent in that location so the food business there have grown much better as there is no further competition.
+	However, the sample size of data is too small to confirm that whether or not the inference is true.
+
+SQL code used for analysis: SELECT business.id, 
+							business.name, 
+							business.stars, 
+							business.review_count, 
+							hours.hours, 
+							business.address, 
+							business.city, 
+							business.state, 
+							business.postal_code 
+							FROM ((business INNER JOIN category ON business.id=category.business_id) 
+							INNER JOIN hours 
+							ON business.id=hours.business_id) 
+							WHERE 
+							category.category="Food" 
+							AND business.city="Las Vegas" 
+							AND (business.stars BETWEEN 2.0 AND 3.0 OR business.stars BETWEEN 4.0 AND 5.0);
+
+		
+		
+2. Group business based on the ones that are open and the ones that are closed. 
+	What differences can you find between the ones that are still open and the ones that are closed? 
+	List at least two differences and the SQL code you used to arrive at your answer.
+		
+i. Difference 1: The one which is open has more average star(3.67900943396 ) than the other which is closed(3.52039473684).
+         
+         
+ii. Difference 2: The one which is open has more average number of reviews(31) than the other which is closed(23)
+         
+         
+         
+SQL code used for analysis: SELECT is_open, 
+							COUNT(DISTINCT id) as Total_Id, 
+							SUM(review_count)/COUNT(DISTINCT id) AS average_review, 
+							AVG(stars) as average_stars 
+							FROM business 
+							group by is_open;
+
+	
+	
+3. For this last part of your analysis, you are going to choose the type of analysis you want to conduct on the Yelp dataset 
+	and are going to prepare the data for analysis.
+
+Ideas for analysis include: Parsing out keywords and business attributes for sentiment analysis, 
+clustering businesses to find commonalities or anomalies between them, 
+predicting the overall star rating for a business, 
+predicting the number of fans a user will have, and so on. 
+These are just a few examples to get you started, so feel free to be creative 
+and come up with your own problem you want to solve. Provide answers, in-line, to all of the following:
+	
+i. Indicate the type of analysis you chose to do:
+   Ans: Predicting to run a specific category business in a specific location so that the business can grow much better
+         
+ii. Write 1-2 brief paragraphs on the type of data you will need for your analysis and why you chose that data:
+   Ans: To start a successful business, we must need to know about the demand of a business in a particular location. Like it is good to open a Tea Stall where people love tea mostly.
+		But it is not good to open a tea stall where there are many good restaurants for good tea or people do not love tea. We will not be able to grow the business successfully then. So,
+		we must have to analyze the demand of a business of a particular locations. For this, first we need the data about a business, their category, their locations at which they got most reviews and big stars. Then we can analysis the data for further 
+		predictions. After running our query on the yelp dataset, we can see that motors business is high rated in Highland neighborhood at Las Vegas. Also we can see that framing, food and plumbing category business is high rated 
+		at Middleton, Oakville and Henderson City. But the business stars does not correlate with review count that much. Maybe the business panel is maintaining there quality so that's why people do not have anything about complaining. Or it can be happen that the business is not attracting the people 
+		much in that area, maybe it will grow later. Also we can see that hours correlate with both stars and review count. The business which opens for more hours have good stars and much reviews count than the business open for few hours.
+		So, we can say that, the business in the particular location started must be open for long times and have to maintain their quality. From the data, we can predict that if a person wants to give 
+		car wash center, he can choose Phoenix city as it is high demandable there.
+                  
+iii. Output of your finished dataset:
+	+--------------------------------------+---------------------------------+-----------------------------------------------------+------------+-------+-------------+-------+--------------+----------------------+
+	| name                                 | category                        | address                                             | city       | state | postal_code | stars | review_count | hours                |
+	+--------------------------------------+---------------------------------+-----------------------------------------------------+------------+-------+-------------+-------+--------------+----------------------+
+	| Motors & More                        | Heating & Air Conditioning/HVAC | 2315 Highland Dr                                    | Las Vegas  | NV    | 89102       |   5.0 |            7 | Saturday|8:00-12:00  |
+	| Christian Brothers Automotive        | Transmission Repair             | 290 E Ocotillo Rd                                   | Chandler   | AZ    | 85249       |   5.0 |           63 | Monday|7:00-18:00    |
+	| Buddy's Muffler & Exhaust            | Auto Repair                     | 1509 Hickory Grove Rd                               | Gastonia   | NC    | 28056       |   5.0 |            4 | Saturday|9:00-15:00  |
+	| Innercity MMA                        | Active Life                     | 403 Dundas Street W                                 | Toronto    | ON    | M5T 1G6     |   5.0 |            3 | Monday|17:00-22:00   |
+	| Brandi Gilstrap                      | Hair Salons                     | 170 S Green Valley Pkwy, Ste 35, Sola Salons Studio | Henderson  | NV    | 89012       |   5.0 |            5 | Saturday|9:00-16:00  |
+	| PC Savants                           | Mobile Phone Repair             | 11966 W Candelaria Ct                               | Sun City   | AZ    | 85373       |   5.0 |           11 | Saturday|11:00-18:00 |
+	| Journey's Dry Carpet Cleaning        | Carpet Cleaning                 | 839 Sardis Cove Dr                                  | Charlotte  | NC    | 28270       |   5.0 |            3 | Saturday|8:00-20:00  |
+	| Dollar Mania                         | Event Planning & Services       | 963 W Elliot Rd, Ste 1                              | Chandler   | AZ    | 85225       |   5.0 |            4 | Saturday|9:00-20:00  |
+	| PRO BIKE+RUN                         | Shopping                        | 3100 Robinson Ln                                    | Pittsburgh | PA    | 15205       |   5.0 |            8 | Saturday|10:00-18:00 |
+	| Big City Grill                       | Hot Dogs                        | 4450 The Plaza, Ste E                               | Charlotte  | NC    | 28215       |   5.0 |            4 | Saturday|11:00-20:00 |
+	| Green Corner Restaurant              | Restaurants                     | 1038 W Southern Ave, Ste 1                          | Mesa       | AZ    | 85210       |   5.0 |          267 | Saturday|10:30-22:00 |
+	| Adobe Montessori                     | Montessori Schools              | 6400 W Del Rio St                                   | Chandler   | AZ    | 85226       |   5.0 |            5 | Monday|7:00-16:00    |
+	| Race Day Mobile Detailing            | Car Wash                        |                                                     | Phoenix    | AZ    | 85023       |   5.0 |           40 | Saturday|7:30-19:30  |
+	| Haggard Chiropractic                 | Doctors                         | 9675 W Camelback Rd                                 | Phoenix    | AZ    | 85037       |   5.0 |           18 | Monday|15:00-19:00   |
+	| Clean Colonic                        | Health & Medical                | 7560 S Willow Dr                                    | Tempe      | AZ    | 85283       |   5.0 |            5 | Saturday|10:00-16:00 |
+	| Camden Fairview                      | Home Services                   | 8738 Fairview Road                                  | Charlotte  | NC    | 28226       |   5.0 |            6 | Saturday|10:00-17:00 |
+	| Lifestyles Fitness Personal Training | Active Life                     | 4685 S Ash Ave, Ste H-1                             | Tempe      | AZ    | 85282       |   5.0 |           17 | Saturday|5:00-21:00  |
+	| Kelsey's Pet Sitting & Dog Walking   | Pet Services                    |                                                     | Surprise   | AZ    | 85374       |   5.0 |            3 | Saturday|7:00-20:00  |
+	| Springmaster Garage Door Service     | Door Sales/Installation         | 1909 E Ray Rd, Ste 9-170                            | Chandler   | AZ    | 85225       |   5.0 |            7 | Saturday|5:00-0:00   |
+	| Desert Medical Equipment             | Shopping                        | 3555 W Reno Ave, Ste F                              | Las Vegas  | NV    | 89118       |   5.0 |            4 | Monday|8:00-17:00    |
+	| Red Apron Bakeshop                   | Bakeries                        | 4832 E Firestone Dr                                 | Chandler   | AZ    | 85249       |   5.0 |            5 | Saturday|9:00-17:00  |
+	| Back-Health Chiropractic             | Health & Medical                | 4425 N 24th St, Ste 125                             | Phoenix    | AZ    | 85016       |   5.0 |           19 | Monday|14:30-17:00   |
+	| Apache Wash Trailhead                | Active Life                     | E Sonoran Desert Dr                                 | Phoenix    | AZ    | 85085       |   5.0 |            9 | Saturday|5:00-19:00  |
+	| West Side Market                     | Meat Shops                      | 1979 W 25th St                                      | Cleveland  | OH    | 44113       |   4.5 |          723 | Saturday|7:00-18:00  |
+	| The Wine Mill                        | Nightlife                       | 4964 Akron Cleveland Rd                             | Peninsula  | OH    | 44264       |   4.5 |           42 | Saturday|15:00-23:00 |
+	+--------------------------------------+---------------------------------+-----------------------------------------------------+------------+-------+-------------+-------+--------------+----------------------+
+	(Output limit exceeded, 25 of 117 total rows shown)
+         
+         
+iv. Provide the SQL code you used to create your final dataset: SELECT business.name, 
+																category.category, 
+																business.address, 
+																business.city, 
+																business.state, 
+																business.postal_code, 
+																business.stars, 
+																business.review_count 
+																FROM business 
+																INNER JOIN category 
+																ON business.id=category.business_id 
+																GROUP BY business.id 
+																ORDER BY business.stars DESC;
